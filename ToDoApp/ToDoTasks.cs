@@ -1,0 +1,52 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections;
+
+namespace ToDoApp
+{
+    class ToDoTasks : IEnumerable, IEnumerator
+    {
+        private List<string> tasksList = new List<string>();
+        private int position = -1;
+
+        public ToDoTasks (List<string> initialListOfTasks)
+        {
+            this.tasksList = initialListOfTasks;
+        }
+
+        public void AddTask (string newTask)
+        {
+            this.tasksList.Add(newTask);
+        }
+
+        public bool IsEmpty()
+        {
+            return (this.tasksList.Count == 0);
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return (IEnumerator)this;
+        }
+        
+        public bool MoveNext()
+        {
+            position++;
+            return (position < this.tasksList.Count);
+        }
+
+        public void Reset()
+        {
+            position = 0; 
+        }
+
+        public object Current
+        {
+            get { return this.tasksList[position]; }
+        }
+        
+    }
+}
