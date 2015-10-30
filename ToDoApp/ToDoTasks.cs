@@ -7,7 +7,7 @@ using System.Collections;
 
 namespace ToDoApp
 {
-    class ToDoTasks : IEnumerable, IEnumerator
+    public class ToDoTasks : IEnumerable, IEnumerator
     {
         private List<string> tasksList = new List<string>();
         private int position = -1;
@@ -17,6 +17,10 @@ namespace ToDoApp
             this.tasksList = initialListOfTasks;
         }
 
+        public List<string> Get()
+        {
+            return this.tasksList;
+        }
         public void AddTask (string newTask)
         {
             this.tasksList.Add(newTask);
