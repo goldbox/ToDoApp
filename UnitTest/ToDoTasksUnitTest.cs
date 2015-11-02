@@ -6,27 +6,26 @@ using Should;
 
 namespace UnitTest
 {
-   
-
     [TestClass]
-    public class UnitTest1
+    public class ToDoTasksUnitTest
     {
         [TestMethod]
-        public void TestAddOneTask()
+        public void AddOneTask()
         {
-            List<string> testList = new List<string>();
+            List<Task> emptyList = new List<Task>();
+            ToDoTasks test = new ToDoTasks(emptyList);
             string newLine = "new line";
-            ToDoTasks test = new ToDoTasks(testList);
             test.AddTask(newLine);
-            testList = test.Get();
-            newLine.ShouldBeSameAs(testList[0]);
+            test.GetEnumerator();
+            test.MoveNext();
+            newLine.ShouldEqual(test.Current);
         }
 
         [TestMethod]
-        public void TestIsEmptyMethod()
+        public void IsEmptyMethod()
         {
-            List<string> testList = new List<string>();
-            ToDoTasks test = new ToDoTasks(testList);
+            List<Task> emptyList = new List<Task>();
+            ToDoTasks test = new ToDoTasks(emptyList);
             bool testIsEmpty = true;
 
             testIsEmpty.ShouldEqual(test.IsEmpty());
