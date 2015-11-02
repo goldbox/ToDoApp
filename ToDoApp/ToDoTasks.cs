@@ -9,26 +9,27 @@ namespace ToDoApp
 {
     public class ToDoTasks : IEnumerable, IEnumerator
     {
-        private List<string> tasksList = new List<string>();
+        private List<Task> tasksList = new List<Task>();
         private int position = -1;
 
-        public ToDoTasks (List<string> initialListOfTasks)
+        public ToDoTasks (List<Task> initialListOfTasks)
         {
             this.tasksList = initialListOfTasks;
         }
 
-        public List<string> Get()
-        {
-            return this.tasksList;
-        }
         public void AddTask (string newTask)
         {
-            this.tasksList.Add(newTask);
+            this.tasksList.Add(new Task(newTask));
         }
 
         public bool IsEmpty()
         {
             return (this.tasksList.Count == 0);
+        }
+
+        public void ChangeTaskStatus(int index, bool taskStatus)
+        {
+            this.tasksList[index].SetTaskStatus(taskStatus);
         }
 
         public IEnumerator GetEnumerator()
