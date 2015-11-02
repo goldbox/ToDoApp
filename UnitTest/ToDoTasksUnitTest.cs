@@ -16,9 +16,7 @@ namespace UnitTest
             ToDoTasks test = new ToDoTasks(emptyList);
             string newLine = "new line";
             test.AddTask(newLine);
-            test.GetEnumerator();
-            test.MoveNext();
-            newLine.ShouldEqual(test.Current);
+            newLine.ShouldEqual(test.GetTask(0).Name);
         }
 
         [TestMethod]
@@ -35,6 +33,18 @@ namespace UnitTest
             testIsEmpty = false;
             testIsEmpty.ShouldEqual(test.IsEmpty());
         }
+
+        [TestMethod]
+        public void ChangeTaskStatus()
+        {
+            List<Task> emptyList = new List<Task>();
+            ToDoTasks test = new ToDoTasks(emptyList);
+            string newLine = "new line";
+            test.AddTask(newLine);
+            test.ChangeTaskStatus(0, false);
+            false.ShouldEqual(test.GetTask(0).TaskStatus);
+        }
+
 
     }
 }

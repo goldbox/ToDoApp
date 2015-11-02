@@ -18,8 +18,9 @@ namespace ToDoApp
             {
                 Console.WriteLine("Please enter one of the following arguments:");
                 Console.WriteLine("/add \"...\"- To add a new task");
-                Console.WriteLine("/list - To see the list with opened tasks");
                 Console.WriteLine("/done \"...\" - To set a particular task as done");
+                Console.WriteLine("/list - To see the list with opened tasks");
+                Console.WriteLine("/list done - To see the list with finished tasks");
                 Console.WriteLine("E.g. ToDoApp.exe add \"pay electricity\"");
                 return;
             }
@@ -35,27 +36,52 @@ namespace ToDoApp
                     }
                     break;
                 case "/list":
-                    if (tasksList.IsEmpty())
-                    {
-                        Console.WriteLine("No Tasks for today.\nEnjoy your day!");
-                        break;
-                    }
                     int index = 1;
-                    foreach (Task task in tasksList)
+                    if(args.Length == 1)
                     {
-                        if (task.TaskStatus == true)
-                            Console.WriteLine(index + ". " + task.Name);
-                        index++;
+                        if (tasksList.IsEmpty())
+                        {
+                            Console.WriteLine("No Tasks for today.\nEnjoy your day!");
+                            break;
+                        }
+                        index = 1;
+                        Console.WriteLine("Here is the list with your opened tasks:");
+                        foreach (Task task in tasksList)
+                        {
+                            if (task.TaskStatus == true)
+                                Console.WriteLine(index + ". " + task.Name);
+                            index++;
+                        }
+                        break;
+                    }else
+                    {
+                    switch (args[1])
+                    {
+                        case "done":
+                            index = 1;
+                            Console.WriteLine("Here is the list with the finished tasks:");
+                            foreach (Task task in tasksList)
+                            {
+                                if (task.TaskStatus == false)
+                                    Console.WriteLine(index + ". " + task.Name);
+                                index++;
+                            }
+                            break;
+                        default:
+                            Console.WriteLine("/list - To see the list with opened tasks");
+                            Console.WriteLine("/list done - To see the list with finished tasks");
+                            break;
+                    }
                     }
                     break;
                 case "/done":
                     if(args.Length >= 2)
                     {
-                        int i = -1;
+                        int i;
                         bool numberValid = Int32.TryParse(args[1], out i);
-                        if (numberValid && (i < initialList.Count))
+                        if (numberValid && (i <= initialList.Count))
                         {
-                            tasksList.ChangeTaskStatus(i - 1, false);
+                            tasksList.ChangeTaskStatus(i-1, false);
                             txtWorker.Save(tasksList);
                             Console.WriteLine("Task " + i + " set to done!");
                         } else   

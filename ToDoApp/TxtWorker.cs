@@ -26,7 +26,7 @@ namespace ToDoApp
         }
         public void Save (ToDoTasks toDoList)
         {
-            StreamWriter sw = new StreamWriter(Path); //?true
+            StreamWriter sw = new StreamWriter(Path, false); 
             foreach (Task task in toDoList)
             {
                 sw.WriteLine(task.TaskStatus + "," + task.Name);
