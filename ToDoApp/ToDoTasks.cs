@@ -52,6 +52,10 @@ namespace ToDoApp
         {
             get { return this.tasksList[position]; }
         }
-        
+
+        public Task GetTask(int index)
+        {
+            return this.tasksList[index];
+        }
     }
 }
