@@ -16,16 +16,11 @@ namespace ToDoApp
             this.path = path;
         }
 
-        public string Path
-        {
-            get { return this.path; }
-        }
-
         public void Initialize()
         {
-            if (!File.Exists(Path))
+            if (!File.Exists(this.path))
             {
-                Stream sr = new FileStream(Path, FileMode.CreateNew, FileAccess.ReadWrite);
+                Stream sr = new FileStream(this.path, FileMode.CreateNew, FileAccess.ReadWrite);
                 sr.Close();
             }
             else
@@ -34,12 +29,11 @@ namespace ToDoApp
 
         public void Save (ToDoTasks toDoList)
         {
-            StreamWriter sw = new StreamWriter(Path, false); 
+            StreamWriter sw = new StreamWriter(this.path, false); 
             foreach (Task task in toDoList)
             {
                 sw.WriteLine(task.TaskStatus + "," + task.Name);
             }
-
             sw.Close();
         }
 
@@ -48,11 +42,11 @@ namespace ToDoApp
             List<Task> toDoList = new List<Task>();
             Initialize();
             string line;
-            StreamReader sr = new StreamReader(Path);
+            StreamReader sr = new StreamReader(this.path);
             while ((line = sr.ReadLine()) != null)
             {
                 string[] taskSettings = GiveMeTaskSettings(line);
-                bool openTask = (taskSettings[0] == "True") ? true : false;
+                bool openTask = taskSettings[0] == "True";
                 toDoList.Add(new Task(openTask, taskSettings[1]));
             }
             sr.Close();
