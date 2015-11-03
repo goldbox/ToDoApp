@@ -7,13 +7,20 @@ using System.IO;
 
 namespace ToDoApp
 {
-    class TxtWorker
+    public class TxtWorker
     {
-        private string path = "ToDoAppTasksList.txt";
+        private string path;
+
+        public TxtWorker (string path)
+        {
+            this.path = path;
+        }
+
         public string Path
         {
             get { return this.path; }
         }
+
         public void Initialize()
         {
             if (!File.Exists(Path))
@@ -24,6 +31,7 @@ namespace ToDoApp
             else
                 return;
         }
+
         public void Save (ToDoTasks toDoList)
         {
             StreamWriter sw = new StreamWriter(Path, false); 
@@ -55,6 +63,5 @@ namespace ToDoApp
         {
             return line.Split(',');
         }
-
     }
 }
