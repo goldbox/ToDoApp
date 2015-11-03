@@ -9,23 +9,23 @@ namespace ToDoApp
     public class Task
     {
         string name;
-        bool openTask;
+        bool isOpen;
 
         public Task (string name)
         {
-            this.openTask = true;
+            this.isOpen = true;
             this.name = name;
         }
 
-        public Task (bool openTask, string name)
+        public Task (bool isOpen, string name)
         {
-            this.openTask = (openTask) ? true : false;
+            this.isOpen = isOpen;
             this.name = name;
         }
 
         public void SetTaskStatus(bool newStatus)
         {
-            this.openTask = newStatus;
+            this.isOpen = newStatus;
         }
 
         public string Name
@@ -35,7 +35,7 @@ namespace ToDoApp
 
         public bool TaskStatus
         {
-            get { return this.openTask; }
+            get { return this.isOpen; }
         }
     }
 }
