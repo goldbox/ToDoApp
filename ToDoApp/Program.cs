@@ -55,7 +55,7 @@ namespace ToDoApp
                         foreach (Task task in tasksList)
                         {
                             if (task.TaskStatus == true)
-                                Console.WriteLine(index + ". " + task.Name);
+                                Console.WriteLine(index + ". " + task.Name.Replace('#', '\n'));
                             index++;
                         }
                         break;
@@ -68,7 +68,7 @@ namespace ToDoApp
                                 foreach (Task task in tasksList)
                                 {
                                     if (task.TaskStatus == false)
-                                        Console.WriteLine(index + ". " + task.Name);
+                                        Console.WriteLine(index + ". " + task.Name.Replace('#', '\n'));
                                     index++;
                                 }
                                 break;
