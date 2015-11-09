@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using CommandLine;
 
 namespace ToDoApp
 {
@@ -12,8 +11,9 @@ namespace ToDoApp
     {
         static void Main(string[] args)
         {
-            string path = Path.GetFullPath("ToDoAppTasksList.txt");
+            string path = Path.GetFullPath("ToDoAppTasksList");
             TxtWorker txtWorker = new TxtWorker(path);
+            HtmlWorker htmlWorker = new HtmlWorker(path);
             List<Task> initialList = txtWorker.Load();
             ToDoTasks tasksList = new ToDoTasks(initialList);
 
@@ -31,6 +31,7 @@ namespace ToDoApp
                     Console.WriteLine("/done taskID - To set a particular task as done");
                     Console.WriteLine("/list - To see the list with opened tasks");
                     Console.WriteLine("/list done - To see the list with finished tasks");
+                    Console.WriteLine("/export - To export All Tasks in html");
                     Console.WriteLine("E.g. ToDoApp.exe add \"pay electricity\"");
                     break;
 
@@ -39,7 +40,6 @@ namespace ToDoApp
                     {
                         tasksList.AddTask(args[1]);
                         txtWorker.Save(tasksList);
-                        txtWorker.SaveHtml(tasksList);
                         Console.WriteLine("Task added successfully.");
                     }
                     break;
@@ -90,7 +90,6 @@ namespace ToDoApp
                         {
                             tasksList.ChangeTaskStatus(i - 1, false);
                             txtWorker.Save(tasksList);
-                            txtWorker.SaveHtml(tasksList);
                             Console.WriteLine("Task " + i + " is set to done!");
                         }
                         else
@@ -101,6 +100,11 @@ namespace ToDoApp
                     }
                     break;
 
+                case "/export":
+                    htmlWorker.Save(tasksList);
+                    Console.WriteLine("Exported Successfully to html!");
+                    break;
+
                 default:
                     break;
             }
@@ -108,7 +112,11 @@ namespace ToDoApp
 
         private static bool IsNotAValidArgument(string[] args)
         {
-            return args.Length == 0 || (args[0] != "/add" && args[0] != "/list" && args[0] != "/done" && args[0] != "/?");
+            return args.Length == 0 || (args[0] != "/add" && 
+                                        args[0] != "/list" && 
+                                        args[0] != "/done" && 
+                                        args[0] != "/?" &&
+                                        args[0] != "/export");
         }
     }
 }
