@@ -42,7 +42,7 @@ namespace UnitTest
             string newLine = "new line";
             test.AddTask(newLine);
             test.ChangeTaskStatus(0, false);
-            false.ShouldEqual(test.GetTask(0).TaskStatus);
+            false.ShouldEqual(test.GetTask(0).IsOpen);
         }
 
 

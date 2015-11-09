@@ -56,7 +56,7 @@ namespace ToDoApp
                         Console.WriteLine("Here is the list with your opened tasks:");
                         foreach (Task task in tasksList)
                         {
-                            if (task.TaskStatus == true)
+                            if (task.IsOpen == true)
                                 Console.WriteLine(index + ". " + task.Name);
                             index++;
                         }
@@ -69,7 +69,7 @@ namespace ToDoApp
                                 Console.WriteLine("Here is the list with the finished tasks:");
                                 foreach (Task task in tasksList)
                                 {
-                                    if (task.TaskStatus == false)
+                                    if (task.IsOpen == false)
                                         Console.WriteLine(index + ". " + task.Name);
                                     index++;
                                 }
@@ -101,8 +101,28 @@ namespace ToDoApp
                     break;
 
                 case "/export":
+                    if (args.Length >= 2)
+                    {
+                        switch (args[1])
+                        {
+                            case "done":
+                                htmlWorker.Save(tasksList, "done");
+                                Console.WriteLine("Finished Tasks exported successfully to html!");
+                                break;
+                            case "all":
+                                htmlWorker.Save(tasksList, "all");
+                                Console.WriteLine("All Tasks exported successfully to html!");
+                                break;
+                            default:
+                                Console.WriteLine("/export - To export opened tasks to html");
+                                Console.WriteLine("/export done - To export finished tasks to html");
+                                Console.WriteLine("/export all - To export all tasks to html");
+                                break;
+                        }
+                        break;
+                    }
                     htmlWorker.Save(tasksList);
-                    Console.WriteLine("Exported Successfully to html!");
+                    Console.WriteLine("Exported successfully to html!");
                     break;
 
                 default:
