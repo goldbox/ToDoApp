@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using CommandLine;
 
 namespace ToDoApp
 {
@@ -38,6 +39,7 @@ namespace ToDoApp
                     {
                         tasksList.AddTask(args[1]);
                         txtWorker.Save(tasksList);
+                        txtWorker.SaveHtml(tasksList);
                         Console.WriteLine("Task added successfully.");
                     }
                     break;
@@ -55,7 +57,7 @@ namespace ToDoApp
                         foreach (Task task in tasksList)
                         {
                             if (task.TaskStatus == true)
-                                Console.WriteLine(index + ". " + task.Name.Replace('#', '\n'));
+                                Console.WriteLine(index + ". " + task.Name);
                             index++;
                         }
                         break;
@@ -68,7 +70,7 @@ namespace ToDoApp
                                 foreach (Task task in tasksList)
                                 {
                                     if (task.TaskStatus == false)
-                                        Console.WriteLine(index + ". " + task.Name.Replace('#', '\n'));
+                                        Console.WriteLine(index + ". " + task.Name);
                                     index++;
                                 }
                                 break;
@@ -88,6 +90,7 @@ namespace ToDoApp
                         {
                             tasksList.ChangeTaskStatus(i - 1, false);
                             txtWorker.Save(tasksList);
+                            txtWorker.SaveHtml(tasksList);
                             Console.WriteLine("Task " + i + " is set to done!");
                         }
                         else

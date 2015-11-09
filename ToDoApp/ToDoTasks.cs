@@ -45,7 +45,7 @@ namespace ToDoApp
 
         public void Reset()
         {
-            position = 0; 
+            position = -1; 
         }
 
         public object Current
