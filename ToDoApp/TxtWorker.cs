@@ -32,7 +32,7 @@ namespace ToDoApp
             StreamWriter sw = new StreamWriter(this.path, false); 
             foreach (Task task in toDoList)
             {
-                sw.WriteLine(task.TaskStatus + "," + task.Name.Replace('\n', '#'));
+                sw.WriteLine(task.IsOpen + "," + task.Name.Replace('\n', '#'));
             }
             sw.Close();
         }

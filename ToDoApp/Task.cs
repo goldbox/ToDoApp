@@ -33,7 +33,7 @@ namespace ToDoApp
             get { return this.name; }
         }
 
-        public bool TaskStatus
+        public bool IsOpen
         {
             get { return this.isOpen; }
         }

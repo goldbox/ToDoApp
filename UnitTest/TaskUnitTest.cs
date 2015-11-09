@@ -24,7 +24,7 @@ namespace UnitTest
             bool defaultStatus = true;
             Task testNewTask = new Task(testString);
 
-            defaultStatus.ShouldEqual(testNewTask.TaskStatus);
+            defaultStatus.ShouldEqual(testNewTask.IsOpen);
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace UnitTest
             bool inputStatus = false;
             Task testNewTask = new Task(inputStatus, testString);
 
-            inputStatus.ShouldEqual(testNewTask.TaskStatus);
+            inputStatus.ShouldEqual(testNewTask.IsOpen);
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace UnitTest
             Task testNewTask = new Task(testString);
             testNewTask.SetTaskStatus(testStatus);
 
-            testStatus.ShouldEqual(testNewTask.TaskStatus);
+            testStatus.ShouldEqual(testNewTask.IsOpen);
         }
 
 

@@ -15,11 +15,11 @@ namespace ToDoApp
             this.path = path + ".html";
         }
 
-        public void Save(ToDoTasks toDoList)
+        public void Save(ToDoTasks toDoList, string taskStatus = "open")
         {
             StreamWriter sw = new StreamWriter(this.path, false);
             IncludeHeadHtml(sw, "To Do Tasks!");
-            IncludeBodyHtml(toDoList, sw);
+            IncludeBodyHtml(toDoList, sw, taskStatus);
             sw.Close();
         }
 
@@ -32,25 +32,64 @@ namespace ToDoApp
             sw.WriteLine("</head>");
         }
 
-        private static void IncludeBodyHtml(ToDoTasks toDoList, StreamWriter sw)
+        private static void IncludeBodyHtml(ToDoTasks toDoList, StreamWriter sw, string taskStatus)
         {
             sw.WriteLine("<body>");
             sw.WriteLine("<table>");
-            sw.WriteLine("<tr><td>Index</td><td>Is Open</td><td>Description</td></tr>");
             int i = 0;
-            foreach (Task task in toDoList)
+            switch (taskStatus)
             {
-                i++;
-                sw.WriteLine("<tr>");
-                sw.WriteLine("<td>{0}</td>", i);
-                sw.WriteLine("<td>{0}</td>", task.TaskStatus);
-                sw.WriteLine("<td>{0}</td>", task.Name);
-                sw.WriteLine("</tr>");
+                case "done":
+                    sw.WriteLine("Here are your finished tasks:");
+                    sw.WriteLine("<tr><td>ID</td><td>Description</td></tr>");
+                    foreach (Task task in toDoList)
+                    {
+                        i++;
+                        if (!task.IsOpen)
+                        {
+                            sw.WriteLine("<tr>");
+                            sw.WriteLine("<td>{0}</td>", i);
+                            sw.WriteLine("<td>{0}</td>", task.Name);
+                            sw.WriteLine("</tr>");
+                        }
+                    }
+                    break;
+
+                case "all":
+                    sw.WriteLine("Here are all your tasks:");
+                    sw.WriteLine("<tr><td>ID</td><td>Is Open</td><td>Description</td></tr>");
+                    foreach (Task task in toDoList)
+                    {
+                        i++;
+                        sw.WriteLine("<tr>");
+                        sw.WriteLine("<td>{0}</td>", i);
+                        sw.WriteLine("<td>{0}</td>", task.IsOpen);
+                        sw.WriteLine("<td>{0}</td>", task.Name);
+                        sw.WriteLine("</tr>");
+                    }
+                    break;
+
+                default:
+                    sw.WriteLine("Here are your opened tasks:");
+                    sw.WriteLine("<tr><td>ID</td><td>Description</td></tr>");
+                    foreach (Task task in toDoList)
+                    {
+                        i++;
+                        if (task.IsOpen)
+                        {
+                            sw.WriteLine("<tr>");
+                            sw.WriteLine("<td>{0}</td>", i);
+                            sw.WriteLine("<td>{0}</td>", task.Name);
+                            sw.WriteLine("</tr>");
+                        }
+                    }
+                    break;
             }
             sw.WriteLine("</table>");
             sw.WriteLine("</body>");
             sw.WriteLine("</html>");
         }
+
 
     }
 }
