@@ -37,7 +37,6 @@ namespace ToDoApp
             sw.Close();
         }
 
-
         public List<Task> Load()
         {
             List<Task> toDoList = new List<Task>();
