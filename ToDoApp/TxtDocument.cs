@@ -7,11 +7,11 @@ using System.IO;
 
 namespace ToDoApp
 {
-    public class TxtWorker
+    public class TxtDocument
     {
         private string path;
 
-        public TxtWorker (string path)
+        public TxtDocument (string path)
         {
             this.path = path + ".txt";
         }
@@ -32,7 +32,7 @@ namespace ToDoApp
             StreamWriter sw = new StreamWriter(this.path, false); 
             foreach (Task task in toDoList)
             {
-                sw.WriteLine(task.IsOpen + "," + task.Name.Replace('\n', '#'));
+                sw.WriteLine(task.ID + "," + task.IsOpen + "," + task.Name.Replace('\n', '#'));
             }
             sw.Close();
         }
@@ -47,8 +47,9 @@ namespace ToDoApp
             {
                 line = line.Replace('#', '\n');
                 string[] taskSettings = GiveMeTaskSettings(line);
-                bool openTask = (taskSettings[0] == "True");
-                toDoList.Add(new Task(openTask, taskSettings[1]));
+                int id = Int32.Parse(taskSettings[0]);
+                bool openTask = (taskSettings[1] == "True");
+                toDoList.Add(new Task(id, openTask, taskSettings[2]));
             }
             sr.Close();
             return toDoList;

@@ -12,9 +12,9 @@ namespace ToDoApp
         static void Main(string[] args)
         {
             string path = Path.GetFullPath("ToDoAppTasksList");
-            TxtWorker txtWorker = new TxtWorker(path);
-            HtmlWorker htmlWorker = new HtmlWorker(path);
-            List<Task> initialList = txtWorker.Load();
+            TxtDocument txtDocument = new TxtDocument(path);
+            HtmlDocument htmlDocument = new HtmlDocument(path);
+            List<Task> initialList = txtDocument.Load();
             ToDoTasks tasksList = new ToDoTasks(initialList);
 
             if (IsNotAValidArgument(args))
@@ -32,6 +32,7 @@ namespace ToDoApp
                     Console.WriteLine("/list - To see the list with opened tasks");
                     Console.WriteLine("/list done - To see the list with finished tasks");
                     Console.WriteLine("/export - To export All Tasks in html");
+                    Console.WriteLine("/find \"string\" - To find some specific Tasks");
                     Console.WriteLine("E.g. ToDoApp.exe add \"pay electricity\"");
                     break;
 
@@ -39,13 +40,12 @@ namespace ToDoApp
                     if (args.Length >= 2)
                     {
                         tasksList.AddTask(args[1]);
-                        txtWorker.Save(tasksList);
+                        txtDocument.Save(tasksList);
                         Console.WriteLine("Task added successfully.");
                     }
                     break;
 
                 case "/list":
-                    int index = 1;
                     if (args.Length == 1)
                     {
                         if (tasksList.IsEmpty())
@@ -57,8 +57,7 @@ namespace ToDoApp
                         foreach (Task task in tasksList)
                         {
                             if (task.IsOpen == true)
-                                Console.WriteLine(index + ". " + task.Name);
-                            index++;
+                                Console.WriteLine(task.ID + ". " + task.Name);
                         }
                         break;
                     }
@@ -70,8 +69,7 @@ namespace ToDoApp
                                 foreach (Task task in tasksList)
                                 {
                                     if (task.IsOpen == false)
-                                        Console.WriteLine(index + ". " + task.Name);
-                                    index++;
+                                        Console.WriteLine(task.ID + ". " + task.Name);
                                 }
                                 break;
                             default:
@@ -84,13 +82,13 @@ namespace ToDoApp
                 case "/done":
                     if (args.Length >= 2)
                     {
-                        int i;
-                        bool numberValid = Int32.TryParse(args[1], out i);
-                        if (numberValid && (i <= initialList.Count) && (i > 0))
+                        int id;
+                        bool numberValid = Int32.TryParse(args[1], out id);
+                        if (numberValid && (id <= initialList.Count) && (id > 0))
                         {
-                            tasksList.ChangeTaskStatus(i - 1, false);
-                            txtWorker.Save(tasksList);
-                            Console.WriteLine("Task " + i + " is set to done!");
+                            tasksList.ChangeTaskStatus(id - 1, false);
+                            txtDocument.Save(tasksList);
+                            Console.WriteLine("Task " + id + " is set to done!");
                         }
                         else
                         {
@@ -106,11 +104,11 @@ namespace ToDoApp
                         switch (args[1])
                         {
                             case "done":
-                                htmlWorker.Save(tasksList, "done");
+                                htmlDocument.Save(tasksList, "done");
                                 Console.WriteLine("Finished Tasks exported successfully to html!");
                                 break;
                             case "all":
-                                htmlWorker.Save(tasksList, "all");
+                                htmlDocument.Save(tasksList, "all");
                                 Console.WriteLine("All Tasks exported successfully to html!");
                                 break;
                             default:
@@ -121,10 +119,32 @@ namespace ToDoApp
                         }
                         break;
                     }
-                    htmlWorker.Save(tasksList);
+                    htmlDocument.Save(tasksList);
                     Console.WriteLine("To DO Tasks exported successfully to html!");
                     break;
 
+                case "/find":
+                    if (args.Length >= 2)
+                    {
+                        tasksList.Find(args[1]);
+                        if (tasksList.IsEmpty())
+                        {
+                            Console.WriteLine("No results for: {0}", args[1]);
+                        } else
+                        {
+                            Console.WriteLine("Tasks containing \"{0}\":", args[1]);
+                            foreach (Task task in tasksList)
+                            {
+                                    Console.WriteLine(task.ID + ". " + task.Name);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please write the string you want to search for.");
+                        Console.WriteLine("E.g. /find \"go to\"");
+                    }
+                    break;
                 default:
                     break;
             }
@@ -136,7 +156,8 @@ namespace ToDoApp
                                         args[0] != "/list" && 
                                         args[0] != "/done" && 
                                         args[0] != "/?" &&
-                                        args[0] != "/export");
+                                        args[0] != "/export" &&
+                                        args[0] != "/find");
         }
     }
 }

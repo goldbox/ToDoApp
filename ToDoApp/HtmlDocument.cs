@@ -7,10 +7,10 @@ using System.IO;
 
 namespace ToDoApp
 {
-    public class HtmlWorker
+    public class HtmlDocument
     {
         string path;
-        public HtmlWorker(string path)
+        public HtmlDocument(string path)
         {
             this.path = path + ".html";
         }
@@ -36,7 +36,6 @@ namespace ToDoApp
         {
             sw.WriteLine("<body>");
             sw.WriteLine("<table>");
-            int i = 0;
             switch (taskStatus)
             {
                 case "done":
@@ -44,11 +43,10 @@ namespace ToDoApp
                     sw.WriteLine("<tr><td>ID</td><td>Description</td></tr>");
                     foreach (Task task in toDoList)
                     {
-                        i++;
                         if (!task.IsOpen)
                         {
                             sw.WriteLine("<tr>");
-                            sw.WriteLine("<td>{0}</td>", i);
+                            sw.WriteLine("<td>{0}</td>", task.ID);
                             sw.WriteLine("<td>{0}</td>", task.Name);
                             sw.WriteLine("</tr>");
                         }
@@ -60,9 +58,8 @@ namespace ToDoApp
                     sw.WriteLine("<tr><td>ID</td><td>Is Open</td><td>Description</td></tr>");
                     foreach (Task task in toDoList)
                     {
-                        i++;
                         sw.WriteLine("<tr>");
-                        sw.WriteLine("<td>{0}</td>", i);
+                        sw.WriteLine("<td>{0}</td>", task.ID);
                         sw.WriteLine("<td>{0}</td>", task.IsOpen);
                         sw.WriteLine("<td>{0}</td>", task.Name);
                         sw.WriteLine("</tr>");
@@ -74,11 +71,10 @@ namespace ToDoApp
                     sw.WriteLine("<tr><td>ID</td><td>Description</td></tr>");
                     foreach (Task task in toDoList)
                     {
-                        i++;
                         if (task.IsOpen)
                         {
                             sw.WriteLine("<tr>");
-                            sw.WriteLine("<td>{0}</td>", i);
+                            sw.WriteLine("<td>{0}</td>", task.ID);
                             sw.WriteLine("<td>{0}</td>", task.Name);
                             sw.WriteLine("</tr>");
                         }

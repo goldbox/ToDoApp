@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTest
 {
     [TestClass]
-    public class HtmlWorkerUnitTest
+    public class HtmlDocumentUnitTest
     {
         [TestMethod]
         public void TestMethod1()

@@ -8,13 +8,13 @@ using System.Collections.Generic;
 namespace UnitTest
 {
     [TestClass]
-    public class TxtWorkerUnitTest
+    public class TxtDocumentUnitTest
     {
         [TestMethod]
         public void InitialiseMethod()
         {
             string path = Path.GetFullPath("ToDoAppTaskListTest");
-            TxtWorker testTxtWorker = new TxtWorker(path);
+            TxtDocument testTxtWorker = new TxtDocument(path);
             path += ".txt";
             File.Delete(path);
             testTxtWorker.Initialize();
@@ -40,7 +40,7 @@ namespace UnitTest
         private static List<Task> GetListUsingSaveAndLoad(ToDoTasks appTaskList)
         {
             string path = Path.GetFullPath("ToDoAppListSaveLoadTest");
-            TxtWorker testTxtWorker = new TxtWorker(path);
+            TxtDocument testTxtWorker = new TxtDocument(path);
             path += ".txt";
             File.Delete(path);
             testTxtWorker.Save(appTaskList);
@@ -53,7 +53,7 @@ namespace UnitTest
             string appPath = Path.GetFullPath("appPath");
             appPath = appPath.Substring(0, appPath.Length - 26);
             appPath += @"ToDoApp\bin\Debug\ToDoAppTasksList";
-            TxtWorker appTxtWorker = new TxtWorker(appPath);
+            TxtDocument appTxtWorker = new TxtDocument(appPath);
             appList = appTxtWorker.Load();
             appTaskList = new ToDoTasks(appList);
         }

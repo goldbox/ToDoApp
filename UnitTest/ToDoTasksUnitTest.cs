@@ -45,6 +45,19 @@ namespace UnitTest
             false.ShouldEqual(test.GetTask(0).IsOpen);
         }
 
+        [TestMethod]
+        public void Find()
+        {
+            List<Task> emptyList = new List<Task>();
+            ToDoTasks test = new ToDoTasks(emptyList);
+            string newLine = "new line";
+            test.AddTask(newLine);
+            newLine = "another line";
+            test.AddTask(newLine);
+            test.Find("new");
+
+        }
+
 
     }
 }

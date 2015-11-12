@@ -12,7 +12,7 @@ namespace UnitTest
         public void AddANewTaskName()
         {
             string testString = "This is a test!";
-            Task testNewTask = new Task(testString);
+            Task testNewTask = new Task(1, testString);
 
             testString.ShouldEqual(testNewTask.Name);
         }
@@ -22,7 +22,7 @@ namespace UnitTest
         {
             string testString = "This is a test!";
             bool defaultStatus = true;
-            Task testNewTask = new Task(testString);
+            Task testNewTask = new Task(1, testString);
 
             defaultStatus.ShouldEqual(testNewTask.IsOpen);
         }
@@ -32,7 +32,7 @@ namespace UnitTest
         {
             string testString = "This is a test!";
             bool inputStatus = false;
-            Task testNewTask = new Task(inputStatus, testString);
+            Task testNewTask = new Task(1, inputStatus, testString);
 
             inputStatus.ShouldEqual(testNewTask.IsOpen);
         }
@@ -42,7 +42,7 @@ namespace UnitTest
         {
             string testString = "This is a test!";
             bool testStatus = false;
-            Task testNewTask = new Task(testString);
+            Task testNewTask = new Task(1, testString);
             testNewTask.SetTaskStatus(testStatus);
 
             testStatus.ShouldEqual(testNewTask.IsOpen);

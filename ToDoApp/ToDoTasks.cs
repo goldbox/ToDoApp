@@ -9,17 +9,31 @@ namespace ToDoApp
 {
     public class ToDoTasks : IEnumerable, IEnumerator
     {
-        private List<Task> tasksList = new List<Task>();
+        private List<Task> tasksList;
         private int position = -1;
+        private MyCounter id;
+
+        public ToDoTasks()
+        {
+            this.id = new MyCounter();
+            this.tasksList = new List<Task>();
+        }
 
         public ToDoTasks (List<Task> initialListOfTasks)
         {
             this.tasksList = initialListOfTasks;
+            this.id = new MyCounter(GetLastID());
+        }
+        private int GetLastID()
+        {
+            int totalTasks = this.tasksList.Count;
+            int lastID = this.tasksList[totalTasks - 1].ID;
+            return (lastID != 0) ? lastID + 1 : 1;
         }
 
         public void AddTask (string newTask)
         {
-            this.tasksList.Add(new Task(newTask));
+            this.tasksList.Add(new Task(id.NextValue(), newTask));
         }
 
         public bool IsEmpty()
@@ -30,6 +44,11 @@ namespace ToDoApp
         public void ChangeTaskStatus(int index, bool taskStatus)
         {
             this.tasksList[index].SetTaskStatus(taskStatus);
+        }
+
+        public void Find(string element)
+        {
+            this.tasksList = this.tasksList.FindAll(p => p.Name.Contains(element));
         }
 
         public IEnumerator GetEnumerator()

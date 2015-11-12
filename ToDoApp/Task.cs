@@ -8,17 +8,20 @@ namespace ToDoApp
 {
     public class Task
     {
+        int id;
         string name;
         bool isOpen;
 
-        public Task (string name)
+        public Task (int id, string name)
         {
+            this.id = id;
             this.isOpen = true;
             this.name = name;
         }
 
-        public Task (bool isOpen, string name)
+        public Task (int id, bool isOpen, string name)
         {
+            this.id = id;
             this.isOpen = isOpen;
             this.name = name;
         }
@@ -36,6 +39,11 @@ namespace ToDoApp
         public bool IsOpen
         {
             get { return this.isOpen; }
+        }
+
+        public int ID
+        {
+            get { return this.id; }
         }
     }
 }
