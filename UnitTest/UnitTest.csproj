@@ -57,6 +57,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="HtmlDocumentUnitTest.cs" />
+    <Compile Include="MyCounterUnitTest.cs" />
     <Compile Include="TaskUnitTest.cs" />
     <Compile Include="ToDoTasksUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

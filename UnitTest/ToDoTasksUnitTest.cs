@@ -12,8 +12,7 @@ namespace UnitTest
         [TestMethod]
         public void AddOneTask()
         {
-            List<Task> emptyList = new List<Task>();
-            ToDoTasks test = new ToDoTasks(emptyList);
+            ToDoTasks test = new ToDoTasks();
             string newLine = "new line";
             test.AddTask(newLine);
             newLine.ShouldEqual(test.GetTask(0).Name);
@@ -22,8 +21,7 @@ namespace UnitTest
         [TestMethod]
         public void IsEmptyMethod()
         {
-            List<Task> emptyList = new List<Task>();
-            ToDoTasks test = new ToDoTasks(emptyList);
+            ToDoTasks test = new ToDoTasks();
             bool testIsEmpty = true;
 
             testIsEmpty.ShouldEqual(test.IsEmpty());
@@ -37,8 +35,7 @@ namespace UnitTest
         [TestMethod]
         public void ChangeTaskStatus()
         {
-            List<Task> emptyList = new List<Task>();
-            ToDoTasks test = new ToDoTasks(emptyList);
+            ToDoTasks test = new ToDoTasks();
             string newLine = "new line";
             test.AddTask(newLine);
             test.ChangeTaskStatus(0, false);
@@ -48,8 +45,7 @@ namespace UnitTest
         [TestMethod]
         public void Find()
         {
-            List<Task> emptyList = new List<Task>();
-            ToDoTasks test = new ToDoTasks(emptyList);
+            ToDoTasks test = new ToDoTasks();
             string newLine = "new line";
             test.AddTask(newLine);
             newLine = "another line";

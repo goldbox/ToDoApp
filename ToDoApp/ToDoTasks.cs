@@ -22,13 +22,16 @@ namespace ToDoApp
         public ToDoTasks (List<Task> initialListOfTasks)
         {
             this.tasksList = initialListOfTasks;
-            this.id = new MyCounter(GetLastID());
+            this.id = new MyCounter(GetNextID());
         }
-        private int GetLastID()
+
+        private int GetNextID()
         {
+            if (IsEmpty())
+                return 1;
             int totalTasks = this.tasksList.Count;
             int lastID = this.tasksList[totalTasks - 1].ID;
-            return (lastID != 0) ? lastID + 1 : 1;
+            return lastID + 1;
         }
 
         public void AddTask (string newTask)
