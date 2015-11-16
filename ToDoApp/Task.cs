@@ -26,9 +26,14 @@ namespace ToDoApp
             this.name = name;
         }
 
-        public void SetTaskStatus(bool newStatus)
+        public void ChangeStatus(bool newStatus)
         {
             this.isOpen = newStatus;
+        }
+
+        public void ChangeName(string newName)
+        {
+            this.name = newName;
         }
 
         public string Name

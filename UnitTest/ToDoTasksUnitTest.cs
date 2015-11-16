@@ -38,19 +38,30 @@ namespace UnitTest
             ToDoTasks test = new ToDoTasks();
             string newLine = "new line";
             test.AddTask(newLine);
-            test.ChangeTaskStatus(0, false);
+            test.ChangeTaskStatus(1, false);
             false.ShouldEqual(test.GetTask(0).IsOpen);
         }
 
         [TestMethod]
-        public void Find()
+        public void ChangeTaskName()
+        {
+            ToDoTasks test = new ToDoTasks();
+            string newLine = "new line";
+            test.AddTask(newLine);
+            newLine = "next line";
+            test.ChangeTaskName(1, newLine);
+            newLine.ShouldEqual(test.GetTask(0).Name);
+        }
+
+        [TestMethod]
+        public void Filter()
         {
             ToDoTasks test = new ToDoTasks();
             string newLine = "new line";
             test.AddTask(newLine);
             newLine = "another line";
             test.AddTask(newLine);
-            test.Find("new");
+            test.Filter("new");
 
         }
 

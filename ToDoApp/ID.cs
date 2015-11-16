@@ -6,24 +6,24 @@ using System.Threading.Tasks;
 
 namespace ToDoApp
 {
-    public class MyCounter
+    public class ID
     {
-        private int counter;
+        private int id;
 
-        public MyCounter (int startValue)
+        public ID (int startValue)
         {
-            this.counter = startValue;
+            this.id = startValue;
         }
         
-        public MyCounter()
+        public ID()
         {
-            this.counter = 1;
+            this.id = 1;
         }
 
         public int NextValue()
         {
-            int temp = this.counter;
-            this.counter++;
+            int temp = this.id;
+            this.id++;
             return temp;
         }
 

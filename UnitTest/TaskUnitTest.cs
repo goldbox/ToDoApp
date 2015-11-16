@@ -43,7 +43,7 @@ namespace UnitTest
             string testString = "This is a test!";
             bool testStatus = false;
             Task testNewTask = new Task(1, testString);
-            testNewTask.SetTaskStatus(testStatus);
+            testNewTask.ChangeStatus(testStatus);
 
             testStatus.ShouldEqual(testNewTask.IsOpen);
         }

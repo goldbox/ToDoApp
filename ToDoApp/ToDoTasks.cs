@@ -11,18 +11,18 @@ namespace ToDoApp
     {
         private List<Task> tasksList;
         private int position = -1;
-        private MyCounter id;
+        private ID id;
 
         public ToDoTasks()
         {
-            this.id = new MyCounter();
+            this.id = new ID();
             this.tasksList = new List<Task>();
         }
 
         public ToDoTasks (List<Task> initialListOfTasks)
         {
             this.tasksList = initialListOfTasks;
-            this.id = new MyCounter(GetNextID());
+            this.id = new ID(GetNextID());
         }
 
         private int GetNextID()
@@ -44,14 +44,31 @@ namespace ToDoApp
             return (this.tasksList.Count == 0);
         }
 
-        public void ChangeTaskStatus(int index, bool taskStatus)
+        public void ChangeTaskStatus(int id, bool taskStatus)
         {
-            this.tasksList[index].SetTaskStatus(taskStatus);
+            int index = this.tasksList.FindIndex(p => p.ID == id);
+            this.tasksList[index].ChangeStatus(taskStatus);
         }
 
-        public void Find(string element)
+        public void ChangeTaskName(int id, string taskName)
         {
-            this.tasksList = this.tasksList.FindAll(p => p.Name.Contains(element));
+            int index = this.tasksList.FindIndex(p => p.ID == id);
+            this.tasksList[index].ChangeName(taskName);
+        }
+
+        public bool IDExist(int id)
+        {
+            return this.tasksList.Exists(p => p.ID == id);
+        }
+
+        public void Filter(string findElement)
+        {
+            this.tasksList = this.tasksList.FindAll(p => p.Name.Contains(findElement));
+        }
+
+        public void Filter(bool isOpen)
+        {
+            this.tasksList = this.tasksList.FindAll(p => p.IsOpen.Equals(isOpen));
         }
 
         public IEnumerator GetEnumerator()

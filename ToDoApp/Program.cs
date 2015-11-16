@@ -11,6 +11,7 @@ namespace ToDoApp
     {
         static void Main(string[] args)
         {
+            
             string path = Path.GetFullPath("ToDoAppTasksList");
             TxtDocument txtDocument = new TxtDocument(path);
             HtmlDocument htmlDocument = new HtmlDocument(path);
@@ -26,14 +27,7 @@ namespace ToDoApp
             switch (args[0])
             {
                 case "/?":
-                    Console.WriteLine("Please enter one of the following arguments:");
-                    Console.WriteLine("/add \"...\"- To add a new task");
-                    Console.WriteLine("/done taskID - To set a particular task as done");
-                    Console.WriteLine("/list - To see the list with opened tasks");
-                    Console.WriteLine("/list done - To see the list with finished tasks");
-                    Console.WriteLine("/export - To export All Tasks in html");
-                    Console.WriteLine("/find \"string\" - To find some specific Tasks");
-                    Console.WriteLine("E.g. ToDoApp.exe add \"pay electricity\"");
+                    GetHelp();
                     break;
 
                 case "/add":
@@ -72,6 +66,14 @@ namespace ToDoApp
                                         Console.WriteLine(task.ID + ". " + task.Name);
                                 }
                                 break;
+                            case "all":
+                                Console.WriteLine("Here is the list with all your tasks:");
+                                foreach (Task task in tasksList)
+                                {
+                                    string taskStatus = (task.IsOpen) ? "Open Task" : "Finished Task";
+                                    Console.WriteLine(task.ID + ". " + task.Name + ". Status: {0}", taskStatus);
+                                }
+                                break;
                             default:
                                 Console.WriteLine("/list - To see the list with opened tasks");
                                 Console.WriteLine("/list done - To see the list with finished tasks");
@@ -84,9 +86,9 @@ namespace ToDoApp
                     {
                         int id;
                         bool numberValid = Int32.TryParse(args[1], out id);
-                        if (numberValid && (id <= initialList.Count) && (id > 0))
+                        if (tasksList.IDExist(id))
                         {
-                            tasksList.ChangeTaskStatus(id - 1, false);
+                            tasksList.ChangeTaskStatus(id, false);
                             txtDocument.Save(tasksList);
                             Console.WriteLine("Task " + id + " is set to done!");
                         }
@@ -104,11 +106,12 @@ namespace ToDoApp
                         switch (args[1])
                         {
                             case "done":
-                                htmlDocument.Save(tasksList, "done");
+                                tasksList.Filter(false);
+                                htmlDocument.Save(tasksList); 
                                 Console.WriteLine("Finished Tasks exported successfully to html!");
                                 break;
                             case "all":
-                                htmlDocument.Save(tasksList, "all");
+                                htmlDocument.Save(tasksList); 
                                 Console.WriteLine("All Tasks exported successfully to html!");
                                 break;
                             default:
@@ -119,6 +122,7 @@ namespace ToDoApp
                         }
                         break;
                     }
+                    tasksList.Filter(true);
                     htmlDocument.Save(tasksList);
                     Console.WriteLine("To DO Tasks exported successfully to html!");
                     break;
@@ -126,17 +130,33 @@ namespace ToDoApp
                 case "/find":
                     if (args.Length >= 2)
                     {
-                        tasksList.Find(args[1]);
+                        tasksList.Filter(args[1]);
                         if (tasksList.IsEmpty())
                         {
                             Console.WriteLine("No results for: {0}", args[1]);
-                        } else
+                        } else if (args.Contains("done"))
                         {
-                            Console.WriteLine("Tasks containing \"{0}\":", args[1]);
+                            tasksList.Filter(false);
+                            Console.WriteLine("Finished Tasks containing \"{0}\":", args[1]);
                             foreach (Task task in tasksList)
                             {
-                                    Console.WriteLine(task.ID + ". " + task.Name);
+                                Console.WriteLine(task.ID + ". " + task.Name);
                             }
+                        } else
+                        {
+                            tasksList.Filter(true);
+                            Console.WriteLine("Open Tasks containing \"{0}\":", args[1]);
+                            foreach (Task task in tasksList)
+                            {
+                                Console.WriteLine(task.ID + ". " + task.Name);
+                            }
+                        }
+
+                        if(args.Contains("/export"))
+                        {
+                            tasksList.Reset();
+                            htmlDocument.Save(tasksList);
+                            Console.WriteLine("\nSearched Tasks exported successfully to html!");
                         }
                     }
                     else
@@ -145,9 +165,47 @@ namespace ToDoApp
                         Console.WriteLine("E.g. /find \"go to\"");
                     }
                     break;
+
+                case "/edit":
+                    if (args.Length >= 3)
+                    {
+                        int id;
+                        bool numberValid = Int32.TryParse(args[1], out id);
+                        if (tasksList.IDExist(id))
+                        {
+                            tasksList.ChangeTaskName(id, args[2]);
+                            txtDocument.Save(tasksList);
+                            Console.WriteLine("The changes made to task " + id + " are saved!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Task with ID: {0} do not exist. Please enter a valid task number.", id);
+                            Console.WriteLine("E.g. /edit 1 \"buy tickets to movie\"");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please enter a valid task number and new text for that particular task.");
+                        Console.WriteLine("E.g. /edit 1 \"buy tickets to movie\"");
+                    }
+                    break;
+
                 default:
                     break;
             }
+        }
+
+        private static void GetHelp()
+        {
+            Console.WriteLine("Please enter one of the following arguments:");
+            Console.WriteLine("/add \"...\"- To add a new task");
+            Console.WriteLine("/done taskID - To set a particular task as done");
+            Console.WriteLine("/list - To see the list with opened tasks");
+            Console.WriteLine("/list done - To see the list with finished tasks");
+            Console.WriteLine("/export - To export All Tasks in html");
+            Console.WriteLine("/find \"string\" - To find some specific Tasks");
+            Console.WriteLine("/edit id \"string\" - To edit some specific Task");
+            Console.WriteLine("E.g. ToDoApp.exe add \"pay electricity\"");
         }
 
         private static bool IsNotAValidArgument(string[] args)
@@ -157,7 +215,8 @@ namespace ToDoApp
                                         args[0] != "/done" && 
                                         args[0] != "/?" &&
                                         args[0] != "/export" &&
-                                        args[0] != "/find");
+                                        args[0] != "/find" &&
+                                        args[0] != "/edit");
         }
     }
 }
