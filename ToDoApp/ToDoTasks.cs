@@ -71,6 +71,11 @@ namespace ToDoApp
             this.tasksList = this.tasksList.FindAll(p => p.IsOpen.Equals(isOpen));
         }
 
+        public void FilterTag(string tag)
+        {
+            this.tasksList = this.tasksList.FindAll(p => p.Name.Contains(tag));
+        }
+
         public IEnumerator GetEnumerator()
         {
             return (IEnumerator)this;
@@ -95,6 +100,19 @@ namespace ToDoApp
         public Task GetTask(int index)
         {
             return this.tasksList[index];
+        }
+
+        public int GetCounth()
+        {
+            return this.tasksList.Count;
+        }
+
+        public void PrintConsole()
+        {
+            Reset();
+            Console.WriteLine("ID. Is Open. Task");
+            foreach (Task task in this.tasksList)
+                Console.WriteLine(task.ID + ". " + task.IsOpen + "     " + task.Name);
         }
     }
 }

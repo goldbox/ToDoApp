@@ -13,7 +13,7 @@ namespace UnitTest
         [TestMethod]
         public void InitialiseMethod()
         {
-            string path = Path.GetFullPath("ToDoAppTaskListTest");
+            string path = Path.GetFullPath("TaskListTest");
             TxtDocument testTxtWorker = new TxtDocument(path);
             path += ".txt";
             File.Delete(path);
@@ -26,36 +26,34 @@ namespace UnitTest
         [TestMethod]
         public void SaveLoadMethods()
         {
-            List<Task> appList;
-            ToDoTasks appTaskList;
-            GetDataFromMainDatabaseFile(out appList, out appTaskList);
+            ToDoTasks appTaskList = GetDataFromMainDatabaseFile();
 
-            List<Task> actualAppList = GetListUsingSaveAndLoad(appTaskList);
+            ToDoTasks actualAppList = GetListUsingSaveAndLoad(appTaskList);
 
-            int n = appList.Count;
+            int n = appTaskList.GetCounth();
             for (int i = 0; i < n; i++)
-                CollectionAssert.Equals(appList[i], actualAppList[i]);
+                CollectionAssert.Equals(appTaskList.GetTask(i), actualAppList.GetTask(i));
         }
 
-        private static List<Task> GetListUsingSaveAndLoad(ToDoTasks appTaskList)
+        private static ToDoTasks GetListUsingSaveAndLoad(ToDoTasks appTaskList)
         {
-            string path = Path.GetFullPath("ToDoAppListSaveLoadTest");
+            string path = Path.GetFullPath("TaskListTest");
             TxtDocument testTxtWorker = new TxtDocument(path);
             path += ".txt";
             File.Delete(path);
             testTxtWorker.Save(appTaskList);
-            List<Task> actualAppList = testTxtWorker.Load();
+            ToDoTasks actualAppList = testTxtWorker.Load();
             return actualAppList;
         }
 
-        private static void GetDataFromMainDatabaseFile(out List<Task> appList, out ToDoTasks appTaskList)
+        private static ToDoTasks GetDataFromMainDatabaseFile() 
         {
             string appPath = Path.GetFullPath("appPath");
             appPath = appPath.Substring(0, appPath.Length - 26);
             appPath += @"ToDoApp\bin\Debug\ToDoAppTasksList";
             TxtDocument appTxtWorker = new TxtDocument(appPath);
-            appList = appTxtWorker.Load();
-            appTaskList = new ToDoTasks(appList);
+            ToDoTasks appList = appTxtWorker.Load();
+            return appList;
         }
     }
 }

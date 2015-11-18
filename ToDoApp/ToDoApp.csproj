@@ -63,6 +63,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandOptions.cs" />
+    <Compile Include="FilterIsOpen.cs" />
+    <Compile Include="IFilter.cs" />
     <Compile Include="HtmlDocument.cs" />
     <Compile Include="ID.cs" />
     <Compile Include="Program.cs" />
