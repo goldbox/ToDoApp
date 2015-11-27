@@ -32,7 +32,7 @@ namespace ToDoApp
             StreamWriter sw = new StreamWriter(this.path, false); 
             foreach (Task task in tasksList)
             {
-                sw.WriteLine(task.ID + "," + task.IsOpen + "," + task.Name.Replace('\n', '#'));
+                sw.WriteLine(task.ID + "," + task.IsOpen + "," + task.Name.Replace('\n', '$'));
             }
             sw.Close();
         }
@@ -45,7 +45,7 @@ namespace ToDoApp
             StreamReader sr = new StreamReader(this.path);
             while ((line = sr.ReadLine()) != null)
             {
-                line = line.Replace('#', '\n');
+                line = line.Replace('$', '\n');
                 string[] taskSettings = GiveMeTaskSettings(line);
                 int id = Int32.Parse(taskSettings[0]);
                 bool openTask = (taskSettings[1] == "True");
