@@ -6,12 +6,12 @@ using Should;
 namespace UnitTest
 {
     [TestClass]
-    public class MyCounterUnitTest
+    public class IDUnitTest
     {
         [TestMethod]
         public void CounterStartFrom1()
         {
-            MyCounter counter = new MyCounter();
+            ID counter = new ID();
             int index = 15;
             for (int i = 1; i<= index; i++)
             {
@@ -23,7 +23,7 @@ namespace UnitTest
         public void CounterStartFromN()
         {
             int n = 976;
-            MyCounter counter = new MyCounter(n);
+            ID counter = new ID(n);
             for (int i = n; i <= (n + 15); i++)
             {
                 i.ShouldEqual(counter.NextValue());

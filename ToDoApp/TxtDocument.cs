@@ -27,17 +27,17 @@ namespace ToDoApp
                 return;
         }
 
-        public void Save (ToDoTasks toDoList)
+        public void Save (ToDoTasks tasksList)
         {
             StreamWriter sw = new StreamWriter(this.path, false); 
-            foreach (Task task in toDoList)
+            foreach (Task task in tasksList)
             {
                 sw.WriteLine(task.ID + "," + task.IsOpen + "," + task.Name.Replace('\n', '#'));
             }
             sw.Close();
         }
 
-        public List<Task> Load()
+        public ToDoTasks Load()
         {
             List<Task> toDoList = new List<Task>();
             Initialize();
@@ -52,7 +52,8 @@ namespace ToDoApp
                 toDoList.Add(new Task(id, openTask, taskSettings[2]));
             }
             sr.Close();
-            return toDoList;
+            ToDoTasks tasksList = new ToDoTasks(toDoList);
+            return tasksList;
         }
 
         private string[] GiveMeTaskSettings(string line)
